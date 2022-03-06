@@ -12,8 +12,10 @@ import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 
 public class DeliveryCardFormTest {
-    String date = LocalDate.now().plusDays(3).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-    String invalidDate = LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+    String generateDate(int days) {
+        return LocalDate.now().plusDays(days).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+    }
+
 
 @BeforeEach
 public void SetUp(){
@@ -23,12 +25,12 @@ public void SetUp(){
     @Test
     void shouldTestHappyPath(){
         $("[data-test-id='city'] input").setValue("Москва");
-        $("[data-test-id='date'] input").setValue(date);
+        $("[data-test-id='date'] input").setValue(generateDate(3));
         $("[data-test-id='name'] input").setValue("Енотовый Енот");
         $("[data-test-id='phone'] input").setValue("+79000000000");
         $("[data-test-id='agreement']").click();
         $$("button").find(exactText("Забронировать")).click();
-        $("[data-test-id='notification']").shouldHave(text("Встреча успешно забронирована на " + date),Duration.ofSeconds(15));
+        $("[data-test-id='notification']").shouldHave(text("Встреча успешно забронирована на " + generateDate(3)),Duration.ofSeconds(15));
     }
     @Test
     void shouldTestEmpty(){
@@ -42,7 +44,7 @@ public void SetUp(){
     @Test
     void shouldTestWithoutCity(){
         $("[data-test-id='city'] input").setValue("");
-        $("[data-test-id='date'] input").setValue(date);
+        $("[data-test-id='date'] input").setValue(generateDate(3));
         $("[data-test-id='name'] input").setValue("Енотовый Енот");
         $("[data-test-id='phone'] input").setValue("+79000000000");
         $("[data-test-id='agreement']").click();
@@ -52,7 +54,7 @@ public void SetUp(){
     @Test
     void shouldTestInvalidCity1(){
         $("[data-test-id='city'] input").setValue("Елец");
-        $("[data-test-id='date'] input").setValue(date);
+        $("[data-test-id='date'] input").setValue(generateDate(3));
         $("[data-test-id='name'] input").setValue("Енотовый Енот");
         $("[data-test-id='phone'] input").setValue("+79000000000");
         $("[data-test-id='agreement']").click();
@@ -62,7 +64,7 @@ public void SetUp(){
     @Test
     void shouldTestInvalidCity2(){
         $("[data-test-id='city'] input").setValue("Moscow");
-        $("[data-test-id='date'] input").setValue(date);
+        $("[data-test-id='date'] input").setValue(generateDate(3));
         $("[data-test-id='name'] input").setValue("Енотовый Енот");
         $("[data-test-id='phone'] input").setValue("+79000000000");
         $("[data-test-id='agreement']").click();
@@ -72,7 +74,7 @@ public void SetUp(){
     @Test
     void shouldTestWithoutName(){
         $("[data-test-id='city'] input").setValue("Санкт-Петербург");
-        $("[data-test-id='date'] input").setValue(date);
+        $("[data-test-id='date'] input").setValue(generateDate(3));
         $("[data-test-id='name'] input").setValue("");
         $("[data-test-id='phone'] input").setValue("+79000000000");
         $("[data-test-id='agreement']").click();
@@ -82,7 +84,7 @@ public void SetUp(){
     @Test
     void shouldTestInvalidName1(){
         $("[data-test-id='city'] input").setValue("Саратов");
-        $("[data-test-id='date'] input").setValue(date);
+        $("[data-test-id='date'] input").setValue(generateDate(3));
         $("[data-test-id='name'] input").setValue("Rabid Racoon");
         $("[data-test-id='phone'] input").setValue("+79000000000");
         $("[data-test-id='agreement']").click();
@@ -92,7 +94,7 @@ public void SetUp(){
     @Test
     void shouldTestInvalidName2(){
         $("[data-test-id='city'] input").setValue("Мурманск");
-        $("[data-test-id='date'] input").setValue(date);
+        $("[data-test-id='date'] input").setValue(generateDate(3));
         $("[data-test-id='name'] input").setValue("Енотовый_Енот");
         $("[data-test-id='phone'] input").setValue("+79000000000");
         $("[data-test-id='agreement']").click();
@@ -102,7 +104,7 @@ public void SetUp(){
     @Test
     void shouldTestInvalidName3(){
         $("[data-test-id='city'] input").setValue("Казань");
-        $("[data-test-id='date'] input").setValue(date);
+        $("[data-test-id='date'] input").setValue(generateDate(3));
         $("[data-test-id='name'] input").setValue("999");
         $("[data-test-id='phone'] input").setValue("+79000000000");
         $("[data-test-id='agreement']").click();
@@ -112,7 +114,7 @@ public void SetUp(){
     @Test
     void shouldTestWithoutPhone(){
         $("[data-test-id='city'] input").setValue("Вологда");
-        $("[data-test-id='date'] input").setValue(date);
+        $("[data-test-id='date'] input").setValue(generateDate(3));
         $("[data-test-id='name'] input").setValue("Енотовый Енот");
         $("[data-test-id='phone'] input").setValue("");
         $("[data-test-id='agreement']").click();
@@ -122,7 +124,7 @@ public void SetUp(){
     @Test
     void shouldTestInvalidPhone1(){
         $("[data-test-id='city'] input").setValue("Ульяновск");
-        $("[data-test-id='date'] input").setValue(date);
+        $("[data-test-id='date'] input").setValue(generateDate(3));
         $("[data-test-id='name'] input").setValue("Енотовый Енот");
         $("[data-test-id='phone'] input").setValue("+7900000000");
         $("[data-test-id='agreement']").click();
@@ -132,7 +134,7 @@ public void SetUp(){
     @Test
     void shouldTestInvalidPhone2(){
         $("[data-test-id='city'] input").setValue("Владивосток");
-        $("[data-test-id='date'] input").setValue(date);
+        $("[data-test-id='date'] input").setValue(generateDate(3));
         $("[data-test-id='name'] input").setValue("Енотовый Енот");
         $("[data-test-id='phone'] input").setValue("89000000000");
         $("[data-test-id='agreement']").click();
@@ -142,7 +144,7 @@ public void SetUp(){
     @Test
     void shouldTestInvalidPhone3(){
         $("[data-test-id='city'] input").setValue("Ростов-на-Дону");
-        $("[data-test-id='date'] input").setValue(date);
+        $("[data-test-id='date'] input").setValue(generateDate(3));
         $("[data-test-id='name'] input").setValue("Енотовый Енот");
         $("[data-test-id='phone'] input").setValue("Енот");
         $("[data-test-id='agreement']").click();
@@ -152,7 +154,7 @@ public void SetUp(){
     @Test
     void shouldTestWithoutAgreement (){
         $("[data-test-id='city'] input").setValue("Абакан");
-        $("[data-test-id='date'] input").setValue(date);
+        $("[data-test-id='date'] input").setValue(generateDate(3));
         $("[data-test-id='name'] input").setValue("Енотовый Енот");
         $("[data-test-id='phone'] input").setValue("+79000000000");
         $$("button").find(exactText("Забронировать")).click();
@@ -171,7 +173,7 @@ public void SetUp(){
     @Test
     void shouldTestInvalidDate (){
         $("[data-test-id='city'] input").setValue("Владимир");
-        $("[data-test-id='date'] input").setValue(invalidDate);
+        $("[data-test-id='date'] input").setValue(generateDate(1));
         $("[data-test-id='name'] input").setValue("Енотовый Енот");
         $("[data-test-id='phone'] input").setValue("+79000000000");
         $("[data-test-id='agreement']").click();
